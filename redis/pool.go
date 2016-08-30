@@ -187,6 +187,14 @@ func (p *Pool) Close() error {
 	return nil
 }
 
+// Closed returns whether the pool has been closed
+func (p *Pool) Closed() bool {
+	p.mu.Lock()
+	closed := p.closed
+	p.mu.Unlock()
+	return closed
+}
+
 // release decrements the active count and signals waiters. The caller must
 // hold p.mu during the call.
 func (p *Pool) release() {
